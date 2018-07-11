@@ -1,36 +1,57 @@
-const uuid = require('uuid');
+const createError = require('http-errors');
+const usersRepository = require('../repositories/usersRepository');
 
-const users = [
-  {
-    username: 'lucas',
-    password: 'lucas123',
-    token: 'c44be829-3d89-4b70-80be-177b7633bc5b'
-  },
-  {
-    username: 'leonardo',
-    password: 'lucas123',
-    token: 'c44be829-3d89-4b70-80be-1773763abc5c'
-  },
-  {
-    username: 'lencinas',
-    password: 'lucas123',
-    token: '1234e829-3d89-4b70-80be-1773763abc5d'
-  }
-];
+const MISMATCH_USERNAME_ERROR = 'Username in the url does not match the one in the body';
+const USER_NOT_FOUND_ERROR = 'User not found';
+const USER_ALREADY_CREATED_ERROR = 'username already used. Choose another one';
 
-/*  */
-function create({ username, password }) {
-  const createdUser = { username, password, token: uuid.v4() };
-  users.push(createdUser);
-
-  return Promise.resolve({ username: createdUser.username, token: createdUser.token });
+function create({ username, password, name }) {
+  return usersRepository.getByUsername({ username })
+    .then((storedUser) => {
+      if (storedUser) {
+        return Promise.reject(createError(409, USER_ALREADY_CREATED_ERROR));
+      }
+      return usersRepository.create({ username, name, password })
+        .then((createdUser) => ({ username: createdUser.username, name: createdUser.name }));
+    });
 }
 
 function list() {
-  return Promise.resolve(users.map((user) => ({ username: user.username })));
+  return usersRepository.list();
+}
+
+function get({ username }) {
+  return usersRepository.getByUsername({ username })
+    .then(checkUserExistance);
+}
+
+function update({
+  username, password, name, newPassword, usernameFromUrl
+}) {
+  if (username !== usernameFromUrl) {
+    return Promise.reject(createError(400, MISMATCH_USERNAME_ERROR));
+  }
+
+  return usersRepository.getByCredentials({ username, password })
+    .then(checkUserExistance)
+    .then(() => usersRepository.update({ username, password: newPassword, name }));
+}
+
+function remove({ username }) {
+  return usersRepository.remove({ username });
+}
+
+function checkUserExistance(user) {
+  if (!user) {
+    return Promise.reject(createError(404, USER_NOT_FOUND_ERROR));
+  }
+  return user;
 }
 
 module.exports = {
   create,
-  list
+  get,
+  list,
+  remove,
+  update
 };

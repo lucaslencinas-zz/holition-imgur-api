@@ -1,4 +1,6 @@
-module.exports = ({ genericErrorMessage = 'An error has occurred' } = {}) =>
+const GENERIC_ERROR_MESSAGE = 'An error has occurred';
+
+module.exports = () =>
   (error, req, res) => {
     console.error(error);
     if (error.status) {
@@ -8,5 +10,5 @@ module.exports = ({ genericErrorMessage = 'An error has occurred' } = {}) =>
         message: error.message
       });
     }
-    return res.status(500).json({ message: genericErrorMessage });
+    return res.status(500).json({ message: GENERIC_ERROR_MESSAGE });
   };
