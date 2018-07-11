@@ -31,14 +31,10 @@ function get(req, res, next) {
 /* req.params: { username } */
 /* body message: { username, password, name, newPassword } */
 function update(req, res, next) {
-  const {
-    username, password, name, newPassword
-  } = req.body;
+  const { username, password, name, newPassword } = req.body;
 
   return usersService
-    .update({
-      username, password, name, newPassword, usernameFromUrl: req.params.username
-    })
+    .update({ username, password, name, newPassword, usernameFromUrl: req.params.username })
     .then(() => res.status(204).end())
     .catch(next);
 }

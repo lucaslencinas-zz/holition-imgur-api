@@ -36,6 +36,9 @@ rules:
   comma-dangle:
     - error
     - never
+  object-curly-newline:
+    - error
+    - consistent: true
   max-len:
     - 2
     - code: 150

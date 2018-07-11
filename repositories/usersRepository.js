@@ -32,9 +32,7 @@ function create({ username, name, password }) {
 
 function update({ username, password, name }) {
   const index = users.findIndex((user) => user.username === username);
-  users[index] = {
-    ...users[index], username, password, name
-  };
+  users[index] = { ...users[index], username, password, name };
 
   return Promise.resolve({ username, name });
 }
