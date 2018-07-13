@@ -17,6 +17,10 @@ function get({ imgId }) {
     .then(checkImageExistance);
 }
 
+function getUserImages({ username }) {
+  return imagesRepository.getByUsername({ username });
+}
+
 function update({ username, imgId, imgUrl, isPublic, title, imgIdFromUrl }) {
   if (imgId !== imgIdFromUrl) {
     return Promise.reject(createError(400, MISMATCH_IMG_ID_ERROR));
@@ -41,6 +45,7 @@ function checkImageExistance(img) {
 module.exports = {
   create,
   get,
+  getUserImages,
   list,
   remove,
   update

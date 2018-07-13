@@ -28,6 +28,15 @@ function get(req, res, next) {
     .catch(next);
 }
 
+/* req.params: { username } */
+/* response.body: [{ username, imgId, imgUrl, isPublic, title }] */
+function getUserImages(req, res, next) {
+  return imagesService
+    .getUserImages({ username: req.params.username })
+    .then((user) => res.status(200).json(user))
+    .catch(next);
+}
+
 /* req.params: { imgId } */
 /* body message: { username, imgId, imgUrl, isPublic, title } */
 function update(req, res, next) {
@@ -52,6 +61,7 @@ function remove(req, res, next) {
 module.exports = {
   create,
   get,
+  getUserImages,
   list,
   remove,
   update

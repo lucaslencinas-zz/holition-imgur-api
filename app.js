@@ -22,6 +22,7 @@ const api = express
   .put('/users/:username', missingFieldsMiddleware(USER_UPDATE_FIELDS), usersController.update)
   .get('/users/:username', usersController.get) // partial profile
   .get('/users/:username/profile', usersController.getProfile) // full profile
+  .get('/users/:username/images', imagesController.getUserImages) // partial profile
   .delete('/users/:username', usersController.remove)
   .get('/images', imagesController.list)
   .post('/images', missingFieldsMiddleware(IMAGE_CREATION_FIELDS), imagesController.create)

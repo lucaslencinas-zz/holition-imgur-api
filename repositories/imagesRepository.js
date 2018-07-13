@@ -28,6 +28,10 @@ function getById({ imgId }) {
   return Promise.resolve(images.find((img) => img.imgId === imgId));
 }
 
+function getByUsername({ username }) {
+  return Promise.resolve(images.find((img) => img.username === username));
+}
+
 function create({ username, imgUrl, isPublic = false, title }) {
   const imgId = uuid.v4();
   const newImage = { username, imgUrl, isPublic, imgId, title };
@@ -59,6 +63,7 @@ function list() {
 module.exports = {
   create,
   getById,
+  getByUsername,
   list,
   remove,
   update
