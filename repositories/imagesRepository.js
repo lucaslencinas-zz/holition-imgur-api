@@ -13,7 +13,7 @@ let images = [
     imgUrl: 'http://some-url.com/leonardo-example',
     username: 'leonardo',
     title: 'Some title for some-id1',
-    isPublic: true
+    isPublic: false
   },
   {
     imgId: 'some-id3',
@@ -56,8 +56,8 @@ function remove({ imgId }) {
   return Promise.resolve();
 }
 
-function list() {
-  return Promise.resolve(images);
+function list({ isPublic = true }) {
+  return Promise.resolve(isPublic ? images.filter((img) => img.isPublic) : images);
 }
 
 module.exports = {

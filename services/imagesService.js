@@ -9,7 +9,7 @@ function create({ username, imgUrl, isPublic, title }) {
 }
 
 function list() {
-  return imagesRepository.list();
+  return imagesRepository.list({ isPublic: true });
 }
 
 function get({ imgId }) {
