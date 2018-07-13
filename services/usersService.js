@@ -5,13 +5,13 @@ const MISMATCH_USERNAME_ERROR = 'Username in the url does not match the one in t
 const USER_NOT_FOUND_ERROR = 'User not found';
 const USER_ALREADY_CREATED_ERROR = 'username already used. Choose another one';
 
-function create({ username, password, name }) {
+function create({ username, password, name, age, gender }) {
   return usersRepository.getByUsername({ username })
     .then((storedUser) => {
       if (storedUser) {
         return Promise.reject(createError(409, USER_ALREADY_CREATED_ERROR));
       }
-      return usersRepository.create({ username, name, password })
+      return usersRepository.create({ username, name, password, age, gender })
         .then((createdUser) => ({ username: createdUser.username, name: createdUser.name }));
     });
 }
@@ -25,16 +25,19 @@ function get({ username }) {
     .then(checkUserExistance);
 }
 
-function update({
-  username, password, name, newPassword, usernameFromUrl
-}) {
+function getProfile({ username }) {
+  return usersRepository.getProfile({ username })
+    .then(checkUserExistance);
+}
+
+function update({ username, password, name, newPassword, usernameFromUrl, age, gender }) {
   if (username !== usernameFromUrl) {
     return Promise.reject(createError(400, MISMATCH_USERNAME_ERROR));
   }
 
   return usersRepository.getByCredentials({ username, password })
     .then(checkUserExistance)
-    .then(() => usersRepository.update({ username, password: newPassword, name }));
+    .then(() => usersRepository.update({ username, password: newPassword, name, age, gender }));
 }
 
 function remove({ username }) {
@@ -51,6 +54,7 @@ function checkUserExistance(user) {
 module.exports = {
   create,
   get,
+  getProfile,
   list,
   remove,
   update

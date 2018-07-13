@@ -1,23 +1,37 @@
+const _ = require('lodash');
+
 let users = [
   {
     name: 'Lucas',
     username: 'lucas',
+    age: 25,
+    gender: 'male',
     password: 'lucas123'
   },
   {
     name: 'Leonardo',
     username: 'leonardo',
+    age: 26,
+    gender: 'female',
     password: 'lucas123'
   },
   {
     name: 'Lencinas',
     username: 'lencinas',
+    age: 27,
+    gender: 'male',
     password: 'lucas123'
   }
 ];
 
 function getByUsername({ username }) {
-  return Promise.resolve(users.find((user) => user.username === username));
+  return getProfile({ username })
+    .map((user) => _.pick(user, ['username', 'name']));
+}
+
+function getProfile({ username }) {
+  return Promise.resolve(users
+    .find((user) => user.username === username));
 }
 
 function getByCredentials({ username, password }) {
@@ -25,14 +39,14 @@ function getByCredentials({ username, password }) {
     user.username === username && user.password === password));
 }
 
-function create({ username, name, password }) {
-  users.push({ username, name, password });
+function create({ username, name, password, age, gender }) {
+  users.push({ username, name, password, age, gender });
   return Promise.resolve({ username, name });
 }
 
-function update({ username, password, name }) {
+function update({ username, password, name, age, gender }) {
   const index = users.findIndex((user) => user.username === username);
-  users[index] = { ...users[index], username, password, name };
+  users[index] = { ...users[index], username, password, name, age, gender };
 
   return Promise.resolve({ username, name });
 }
@@ -55,6 +69,7 @@ module.exports = {
   create,
   getByCredentials,
   getByUsername,
+  getProfile,
   list,
   remove,
   update

@@ -6,8 +6,8 @@ const imagesController = require('./controllers/imagesController');
 const errorMiddleware = require('./middlewares/errorMiddleware');
 const missingFieldsMiddleware = require('./middlewares/missingFieldsMiddleware');
 
-const USER_CREATION_FIELDS = ['name', 'username', 'password'];
-const USER_UPDATE_FIELDS = ['name', 'username', 'password', 'newPassword'];
+const USER_CREATION_FIELDS = ['name', 'username', 'password', 'age', 'gender'];
+const USER_UPDATE_FIELDS = ['name', 'username', 'password', 'newPassword', 'age', 'gender'];
 const IMAGE_CREATION_FIELDS = ['imgUrl', 'username', 'isPublic', 'title'];
 const IMAGE_UPDATE_FIELDS = ['imgUrl', 'isPublic', 'title'];
 
@@ -20,7 +20,8 @@ const api = express
   .get('/users', usersController.list)
   .post('/users', missingFieldsMiddleware(USER_CREATION_FIELDS), usersController.create)
   .put('/users/:username', missingFieldsMiddleware(USER_UPDATE_FIELDS), usersController.update)
-  .get('/users/:username', usersController.get)
+  .get('/users/:username', usersController.get) // partial profile
+  .get('/users/:username/profile', usersController.getProfile) // full profile
   .delete('/users/:username', usersController.remove)
   .get('/images', imagesController.list)
   .post('/images', missingFieldsMiddleware(IMAGE_CREATION_FIELDS), imagesController.create)
