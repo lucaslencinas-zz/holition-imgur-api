@@ -12,8 +12,8 @@ function login({ username, password }) {
     .then((token) => ({ username, authToken: token }));
 }
 
-function logout({ username }) {
-  return Promise.resolve({ username, authToken: null });
+function logout() {
+  return Promise.resolve({ authToken: null });
 }
 
 function generateToken(user) {

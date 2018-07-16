@@ -14,10 +14,10 @@ function login(req, res, next) {
 /* body message: { username, token } */
 /* response.body: { username } */
 function logout(req, res, next) {
-  const { username, token } = req.body;
+  const { token } = req.headers.authorization;
 
   return authService
-    .logout({ username, token })
+    .logout({ token })
     .then((unauth) => res.status(200).json(unauth))
     .catch(next);
 }

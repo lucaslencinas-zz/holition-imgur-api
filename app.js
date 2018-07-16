@@ -23,6 +23,7 @@ const api = express
   .Router()
   .use(bodyParser.json())
   .post('/login', missingFieldsMiddleware(USER_LOGIN_FIELDS), authController.login)
+  .get('/logout', authController.logout)
   .get('/users', usersController.list)
   .get('/images', imagesController.list)
   .get('/users/:username', usersController.get) // partial profile
