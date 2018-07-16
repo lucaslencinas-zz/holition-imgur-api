@@ -18,7 +18,8 @@ function get({ imgId }) {
 }
 
 function getUserImages({ username }) {
-  return imagesRepository.getByUsername({ username });
+  return imagesRepository.getByUsername({ username })
+    .then((images) => images || []);
 }
 
 function update({ username, imgId, imgUrl, isPublic, title, imgIdFromUrl }) {

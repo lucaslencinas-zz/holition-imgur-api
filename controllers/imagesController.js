@@ -33,7 +33,7 @@ function get(req, res, next) {
 function getUserImages(req, res, next) {
   return imagesService
     .getUserImages({ username: req.params.username })
-    .then((user) => res.status(200).json(user))
+    .then((images) => res.status(200).json(images))
     .catch(next);
 }
 

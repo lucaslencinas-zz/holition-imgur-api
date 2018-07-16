@@ -1,18 +1,21 @@
 const createError = require('http-errors');
+const jwt = require('jsonwebtoken');
 const usersRepository = require('../repositories/usersRepository');
 
 const MISMATCH_USERNAME_ERROR = 'Username in the url does not match the one in the body';
 const USER_NOT_FOUND_ERROR = 'User not found';
 const USER_ALREADY_CREATED_ERROR = 'username already used. Choose another one';
+const JWT_SECRET = 'holition';
 
 function create({ username, password, name, age, gender }) {
   return usersRepository.getByUsername({ username })
     .then((storedUser) => {
-      if (storedUser) {
+      if (storedUser.username) {
         return Promise.reject(createError(409, USER_ALREADY_CREATED_ERROR));
       }
       return usersRepository.create({ username, name, password, age, gender })
-        .then((createdUser) => ({ username: createdUser.username, name: createdUser.name }));
+        .then(generateToken)
+        .then((token) => ({ username, name, authToken: token }));
     });
 }
 
@@ -42,6 +45,10 @@ function update({ username, password, name, newPassword, usernameFromUrl, age, g
 
 function remove({ username }) {
   return usersRepository.remove({ username });
+}
+
+function generateToken(user) {
+  return jwt.sign({ username: user.username }, JWT_SECRET, { expiresIn: 300 }); // expires in 5 minutes
 }
 
 function checkUserExistance(user) {

@@ -26,7 +26,7 @@ let users = [
 
 function getByUsername({ username }) {
   return getProfile({ username })
-    .map((user) => _.pick(user, ['username', 'name']));
+    .then((user) => _.pick(user, ['username', 'name']));
 }
 
 function getProfile({ username }) {
