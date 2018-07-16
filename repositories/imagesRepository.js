@@ -3,21 +3,28 @@ const uuid = require('uuid');
 let images = [
   {
     imgId: 'some-id1',
-    imgUrl: 'http://some-url.com/lucas-example',
+    imgUrl: 'https://i.imgur.com/3NXNpNC.jpg',
     username: 'lucas',
     title: 'Some title for some-id1',
     isPublic: true
   },
   {
+    imgId: 'some-id4',
+    imgUrl: 'https://i.imgur.com/XrSkyav.png',
+    username: 'lucas',
+    title: 'Some title for some-id4',
+    isPublic: true
+  },
+  {
     imgId: 'some-id2',
-    imgUrl: 'http://some-url.com/leonardo-example',
+    imgUrl: 'https://i.imgur.com/SFSZVaq.jpg',
     username: 'leonardo',
     title: 'Some title for some-id1',
     isPublic: false
   },
   {
     imgId: 'some-id3',
-    imgUrl: 'http://some-url.com/lencinas-example',
+    imgUrl: 'https://i.imgur.com/p3P3u5F.jpg',
     username: 'lencinas',
     title: 'Some title for some-id1',
     isPublic: true
