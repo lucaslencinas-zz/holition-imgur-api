@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const authController = require('./controllers/authController');
 const usersController = require('./controllers/usersController');
@@ -42,6 +43,8 @@ const api = express
 
 app.use('/api', api);
 app.use(errorMiddleware());
+
+mongoose.connect('mongodb://localhost/holition');
 
 app.listen(3001, () => {
   console.log('API listen on port 3001!');

@@ -12,6 +12,55 @@ const initialImages = [
     isPublic: true
   },
   {
+    imgId: 'some-id123',
+    imgUrl: 'https://i.imgur.com/dAtP1da.png',
+    username: 'lucas',
+    title: 'Some title for some-i123d1',
+    isPublic: true
+  },
+  {
+    imgId: 'some-id144',
+    imgUrl: 'https://i.imgur.com/LeSQxu2.png',
+    username: 'lucas',
+    title: 'Some title for some-id1231',
+    isPublic: false
+  },
+  {
+    imgId: 'some-id155',
+    imgUrl: 'https://i.imgur.com/gqhBe9A.jpg',
+    username: 'lucas',
+    title: 'Some title for some-id1555',
+    isPublic: true
+  },
+  {
+    imgId: 'some-id223',
+    imgUrl: 'https://i.imgur.com/HFZjw99.jpg',
+    username: 'lucas',
+    title: 'Some title for some-i123d1',
+    isPublic: false
+  },
+  {
+    imgId: 'some-id244',
+    imgUrl: 'https://i.imgur.com/MmNtNyd.jpg',
+    username: 'lucas',
+    title: 'Some title for some-id1231',
+    isPublic: true
+  },
+  {
+    imgId: 'some-id255',
+    imgUrl: 'https://i.imgur.com/tlSKacf.jpg',
+    username: 'lucas',
+    title: 'Some title for some-id1555',
+    isPublic: false
+  },
+  {
+    imgId: 'some-id2455',
+    imgUrl: 'https://i.imgur.com/5DrYJFG.png',
+    username: 'lencinas',
+    title: 'Some title for some-id1555',
+    isPublic: false
+  },
+  {
     imgId: 'some-id4',
     imgUrl: 'https://i.imgur.com/XrSkyav.png',
     username: 'lucas',

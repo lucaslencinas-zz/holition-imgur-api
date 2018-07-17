@@ -25,8 +25,6 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-mongoose.connect('mongodb://localhost/holition');
-
 UserSchema.pre('save', function bcryptMiddleware() {
   const user = this;
   return bcrypt.hash(user.password, 10)
