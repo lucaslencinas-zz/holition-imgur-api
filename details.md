@@ -11,7 +11,8 @@ This file exists just to justify a couple of decisions that I took, things to im
 - 2 different calls for getting the profile. Just because in the UI I wanted to make an extra API call to render the Profile page with more info. Nothing else.
 - With a little change I could have access to other user public images. Now with the current code I cannot access that. I have to change the logic to bypass the `sameUsernameMiddleware` and querying only public content.
 - Use [config files](https://www.npmjs.com/package/config) for better parametrization and avoid duplicating global and constant.
-- Just basic testing. Unit and e2e but only happy paths.
+- Just basic testing. Unit and e2e but only happy paths. Just for `usersService.js` and for the `app.js` files.
 - If relational database was needed I woul use PostgresQL and [Knex](https://knexjs.org/) as a query builder.
 - When doing commits I didn't test right away due to time constraint. I tested at the end. It wouldn't be like this. Each feature has it tests in the correct branch to be seen before merging it to master.
 - I developed this using a Mac OSX. It would be nice to use docker images for the database and the node server just for being agnostic of the operating system.
+- Improves in the tests setup should be done. Need to manually start the mongo deamon. Uses the same database as in "production".

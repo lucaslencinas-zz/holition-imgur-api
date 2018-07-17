@@ -18,7 +18,6 @@ const IMAGE_CREATION_FIELDS = ['imgUrl', 'username', 'isPublic', 'title'];
 const IMAGE_UPDATE_FIELDS = ['imgUrl', 'isPublic', 'title'];
 
 const app = express();
-app.use(cors());
 
 const api = express
   .Router()
@@ -41,11 +40,10 @@ const api = express
   .get('/images/:imgId', imagesController.get)
   .delete('/images/:imgId', imagesController.remove);
 
+app.use(cors());
 app.use('/api', api);
 app.use(errorMiddleware());
 
 mongoose.connect('mongodb://localhost/holition');
 
-app.listen(3001, () => {
-  console.log('API listen on port 3001!');
-});
+module.exports = app;
