@@ -5,6 +5,9 @@ env:
   es6:    true
   mocha:  true
 
+globals:
+  sandbox: true
+
 plugins:
   - mocha
 

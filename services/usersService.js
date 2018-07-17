@@ -52,7 +52,7 @@ function generateToken(user) {
 }
 
 function checkUserExistance(user) {
-  if (!user) {
+  if (!user.username) {
     return Promise.reject(createError(404, USER_NOT_FOUND_ERROR));
   }
   return user;
