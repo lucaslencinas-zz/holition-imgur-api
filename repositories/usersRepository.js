@@ -1,6 +1,11 @@
 const _ = require('lodash');
+const bcrypt = require('bcrypt');
+const User = require('../schemas/userSchema');
 
-let users = [
+const USER_FIELDS = ['username', 'name'];
+const USER_ALL_FIELDS = ['username', 'name', 'age', 'gender', 'password'];
+
+const initialUsers = [
   {
     name: 'Lucas',
     username: 'lucas',
@@ -24,45 +29,46 @@ let users = [
   }
 ];
 
+User.create(initialUsers)
+  .then((retrievedUsers) => console.log(retrievedUsers))
+  .catch((err) => console.error(err));
+
 function getByUsername({ username }) {
-  return getProfile({ username })
-    .then((user) => _.pick(user, ['username', 'name']));
+  return User.findOne({ username })
+    .then((user) => _.pick(user, USER_FIELDS));
 }
 
 function getProfile({ username }) {
-  return Promise.resolve(users
-    .find((user) => user.username === username));
+  return User.findOne({ username })
+    .then((user) => _.pick(user, USER_ALL_FIELDS));
 }
 
 function getByCredentials({ username, password }) {
-  return Promise.resolve(users.find((user) =>
-    user.username === username && user.password === password));
+  return getProfile({ username })
+    .then((user) => {
+      if (!user) return null;
+      return bcrypt.compare(password, user.password)
+        .then((result) => (result ? user : null));
+    });
 }
 
 function create({ username, name, password, age, gender }) {
-  users.push({ username, name, password, age, gender });
-  return Promise.resolve({ username, name });
+  return User.create({ username, name, password, age, gender })
+    .then((user) => _.pick(user, USER_FIELDS));
 }
 
 function update({ username, password, name, age, gender }) {
-  const index = users.findIndex((user) => user.username === username);
-  users[index] = { ...users[index], username, password, name, age, gender };
-
-  return Promise.resolve({ username, name });
+  return User.updateOne({ username }, { username, name, password, age, gender })
+    .then((user) => _.pick(user, USER_FIELDS));
 }
 
 function remove({ username }) {
-  const index = users.findIndex((user) => user.username === username);
-  if (index !== -1) {
-    users = [...users.slice(0, index), ...users.slice(index + 1, users.length)];
-  }
-
-  return Promise.resolve();
+  return User.deleteOne({ username });
 }
 
 function list() {
-  return Promise.resolve(users.map((user) =>
-    ({ username: user.username, name: user.name })));
+  return User.find()
+    .then((users) => users.map((user) => _.pick(user, USER_FIELDS)));
 }
 
 module.exports = {

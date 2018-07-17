@@ -1,6 +1,9 @@
+const _ = require('lodash');
 const uuid = require('uuid');
+const Image = require('../schemas/imageSchema');
 
-let images = [
+const IMG_FIELDS = ['username', 'imgId', 'imgUrl', 'title', 'isPublic'];
+const initialImages = [
   {
     imgId: 'some-id1',
     imgUrl: 'https://i.imgur.com/3NXNpNC.jpg',
@@ -31,40 +34,40 @@ let images = [
   }
 ];
 
+Image.create(initialImages)
+  .then((retrievedImages) => console.log(retrievedImages))
+  .catch((err) => console.error(err));
+
 function getById({ imgId }) {
-  return Promise.resolve(images.find((img) => img.imgId === imgId));
+  return Image.findOne({ imgId })
+    .then((image) => _.pick(image, IMG_FIELDS));
 }
 
 function getByUsername({ username }) {
-  return Promise.resolve(images.find((img) => img.username === username));
+  return Image.find({ username })
+    .then((imgs) => imgs.map((image) => _.pick(image, IMG_FIELDS)));
 }
 
 function create({ username, imgUrl, isPublic = false, title }) {
   const imgId = uuid.v4();
   const newImage = { username, imgUrl, isPublic, imgId, title };
-  images.push(newImage);
 
-  return Promise.resolve(newImage);
+  return Image.create(newImage)
+    .then((image) => _.pick(image, IMG_FIELDS));
 }
 
 function update({ username, imgUrl, isPublic, imgId, title }) {
-  const index = images.findIndex((img) => img.imgId === imgId);
-  images[index] = { ...images[index], username, imgUrl, isPublic, imgId, title };
-
-  return Promise.resolve({ username, imgUrl, isPublic, imgId });
+  return Image.updateOne({ imgId }, { username, imgUrl, isPublic, imgId, title })
+    .then((image) => _.pick(image, IMG_FIELDS));
 }
 
 function remove({ imgId }) {
-  const index = images.findIndex((img) => img.imgId === imgId);
-  if (index !== -1) {
-    images = [...images.slice(0, index), ...images.slice(index + 1, images.length)];
-  }
-
-  return Promise.resolve();
+  return Image.deleteOne({ imgId });
 }
 
 function list({ isPublic = true }) {
-  return Promise.resolve(isPublic ? images.filter((img) => img.isPublic) : images);
+  return Image.find({ isPublic })
+    .then((images) => images.map((image) => _.pick(image, IMG_FIELDS)));
 }
 
 module.exports = {
