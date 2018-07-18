@@ -1,8 +1,23 @@
 const request = require('supertest');
 const { expect } = require('chai');
+const imagesRepository = require('./repositories/imagesRepository');
+const usersRepository = require('./repositories/usersRepository');
 const app = require('./app');
 
 describe('Holition Imgur API', () => {
+  before(() => // forcing the creation of the initial data.
+    Promise.all([
+      imagesRepository.setup(),
+      usersRepository.setup()
+    ]));
+
+  describe('GET /status', () => {
+    it('API up and running', () =>
+      request(app)
+        .get('/api/status')
+        .expect(200));
+  });
+
   describe('GET /users', () => {
     it('Retrieves the array of initial users', () =>
       request(app)

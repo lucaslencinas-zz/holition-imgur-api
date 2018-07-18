@@ -83,9 +83,11 @@ const initialImages = [
   }
 ];
 
-Image.create(initialImages)
-  .then((retrievedImages) => console.log(retrievedImages))
-  .catch((err) => console.error(err));
+function setup() {
+  return Image.create(initialImages)
+    .then((retrievedImages) => console.log(retrievedImages))
+    .catch((err) => console.error(err));
+}
 
 function getById({ imgId }) {
   return Image.findOne({ imgId })
@@ -125,5 +127,6 @@ module.exports = {
   getByUsername,
   list,
   remove,
-  update
+  update,
+  setup
 };

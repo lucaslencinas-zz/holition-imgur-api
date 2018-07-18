@@ -48,7 +48,7 @@ function remove({ username }) {
 }
 
 function generateToken(user) {
-  return jwt.sign({ username: user.username }, JWT_SECRET, { expiresIn: 300 }); // expires in 5 minutes
+  return jwt.sign({ username: user.username }, JWT_SECRET, { expiresIn: 900 }); // expires in 15 minutes
 }
 
 function checkUserExistance(user) {

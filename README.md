@@ -21,7 +21,7 @@ To install the server execute the following commands:
 npm install
 ```
 
-The server usese [MongoDB](https://www.mongodb.com) as a database. So you need to install and setup all the things needed as it is mention in [this link](https://docs.mongodb.com/manual/installation/).
+The server uses [MongoDB](https://www.mongodb.com) as a database. So you need to install and setup all the things needed as it is mention in [this link](https://docs.mongodb.com/manual/installation/).
 After installing mongo you need to start the mongo daemon. In my case, I just execute in the command line and live it in a tab:
 ```
 mongod --dbpath /data/db
@@ -47,6 +47,7 @@ To use the UI, you can check how to setup the UI project [over here](https://git
 
 ### Unit and E2E
 
+You have to start the mongod process manually before running the tests. (yes, I know, it can be improved)
 You can run all of them with the following command:
 
 ```

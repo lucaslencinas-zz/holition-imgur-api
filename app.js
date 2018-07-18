@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const imagesRepository = require('./repositories/imagesRepository');
+const usersRepository = require('./repositories/usersRepository');
 const authController = require('./controllers/authController');
 const usersController = require('./controllers/usersController');
 const imagesController = require('./controllers/imagesController');
@@ -22,6 +24,7 @@ const app = express();
 const api = express
   .Router()
   .use(bodyParser.json())
+  .get('/status', (req, res) => res.status(200).send('ok'))
   .post('/login', missingFieldsMiddleware(USER_LOGIN_FIELDS), authController.login)
   .get('/logout', authController.logout)
   .get('/users', usersController.list)
@@ -45,5 +48,10 @@ app.use('/api', api);
 app.use(errorMiddleware());
 
 mongoose.connect('mongodb://localhost/holition');
+
+setImmediate(() => {
+  imagesRepository.setup();
+  usersRepository.setup();
+});
 
 module.exports = app;

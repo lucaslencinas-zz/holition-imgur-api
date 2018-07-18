@@ -29,9 +29,11 @@ const initialUsers = [
   }
 ];
 
-User.create(initialUsers)
-  .then((retrievedUsers) => console.log(retrievedUsers))
-  .catch((err) => console.error(err));
+function setup() {
+  return User.create(initialUsers)
+    .then((retrievedUsers) => console.log(retrievedUsers))
+    .catch((err) => console.error(err));
+}
 
 function getByUsername({ username }) {
   return User.findOne({ username })
@@ -78,5 +80,6 @@ module.exports = {
   getProfile,
   list,
   remove,
-  update
+  update,
+  setup
 };
